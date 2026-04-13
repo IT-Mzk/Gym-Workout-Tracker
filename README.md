@@ -1,7 +1,7 @@
 # Gym Workout Tracker
 
 ## Description
-This is a web application built using Flask to help users track their workout routines and progress.
+This is a web application built using Flask to help users track their workout routines and progress. It also help people who need to schedule their workouts program for indicate part of the body
 
 ## Features
 - User login

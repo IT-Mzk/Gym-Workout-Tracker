@@ -1,0 +1,16 @@
+{
+    "_name": "12345",
+    "_xp_points": 100,
+    "_routines": [
+        "tay"
+    ],
+    "_workout_days": {
+        "MONDAY": false,
+        "TUESDAY": false,
+        "WEDNESDAY": false,
+        "THURSDAY": false,
+        "FRIDAY": false,
+        "SATURDAY": true,
+        "SUNDAY": true
+    }
+}
