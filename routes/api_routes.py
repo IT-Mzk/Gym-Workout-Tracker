@@ -8,7 +8,18 @@ from flask import Blueprint, jsonify, request, session
 
 from database import get_connection, row_to_dict, rows_to_dicts
 
+
+
 api_bp = Blueprint("api", __name__, url_prefix="/api")
+
+
+@api_bp.errorhandler(Exception)
+def handle_api_error(error):
+    """
+    Return a JSON error instead of crashing when the database is unavailable
+    or an unexpected exception occurs in an API route.
+    """
+    return _json_error(f"API error: {error}", 503)
 
 VALID_DAYS = {
     "MONDAY",

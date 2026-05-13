@@ -1,136 +1,62 @@
 {% extends 'base.html' %}
 
 {% block main%}
-<style>
-    .profile-container{
-        padding-bottom: 20px;
-    }
-
-    .photo-frame,
-    .name-and-edit{
-        display: inline-block;
-    }
-
-    .photo-frame{
-        width: 190px;
-        height: 190px;
-        border: 4px solid black;
-        margin-right: 10px;
-        overflow: hidden    
-    }
-
-    .photo-frame img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .name-and-edit{
-        
-        vertical-align: top;
-    }
-
-    .username{
-        font-family: Arial, Sans-serif;
-        font-size: 40px;
-    }
-
-    .level{
-        font-family: Arial, Sans-serif;
-        font-size:30px;
-        margin-bottom:10px ;
-    }
-
-    progress{
-        background-color: #08712b;
-    }
-
-    .button {
-        text-decoration: None;
-        background-color: #08712b;
-        color: #fff;
-        padding: 8px 10px;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .routines{
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .routine-block{
-        margin-right: 60px;
-    }
-
-    .routine-name{
-        font-size:30px;
-        margin-left: 38px;
-        margin-right: 50px;
-    }
-
-    a{
-        text-decoration: none;
-    }
-
-    .no-routine-msg{
-        font-size: 30px;
-    }
-
-    .PRs{
-        padding-top: 20px;
-    }
-
-</style>
-<div class="profile-container">
-    <h1>My profile</h1>
-    <div class = "photo-frame">
-        <!-- this displays the photo -->
-        <img src= "{{url_for('static',filename=photo)}}" alt="profile-picture">
-    </div>
-    <div class="name-and-edit">
-        <label class="username">{{ username }}</label><br>
-        <label class="level">Level: {{level}}</label><br>
-        <progress value={{level_fraction}} max="1000"> {{level_fraction}}% </progress>
-        <label>{{level_fraction}}/1000</label>
-        <br><br><br><br><br>
-        <a class="button" href="/edit-profile">Edit Profile</a>
+<div class="profile-header" style="margin-bottom: 32px;">
+    <img class="profile-photo"
+         src="{{ url_for('static', filename=photo) }}"
+         alt="Profile picture">
+    <div>
+        <p class="eyebrow">Profile</p>
+        <h1>{{ username }}</h1>
+        <p class="profile-subtitle" style="color: var(--muted)">Level {{ level }} athlete &mdash; {{ workout_day_count }} training day{% if workout_day_count != 1 %}s{% endif %} per week</p>
+        <div class="button-row">
+            <a class="button button-ghost" href="/edit-profile">Edit Photo</a>
+        </div>
     </div>
 </div>
 
-<h1 class="history">View Routine History</h1>
-<div class="routines">
-    {%if length !=0%}
-    {%for _,routine in routines.items()%}
-        <div class="routine-block">
-            <a href="{{url_for('routine_history',routine=routine.name)}}">
-                <h1 class="routine-name">
-                {{routine.name}}
-                </h1>
-            </a>
-        </div>
-    {%endfor%}
-    {%else%}
-        <h1 class="no-routine-msg">No routine history available</h1>
-    {% endif %}
+<div class="progress-card panel-card" style="margin-bottom: 32px;">
+    <div class="progress-meta">
+        <span>Level {{ level }} &rarr; {{ level + 1 }}</span>
+        <span>{{ level_fraction }} / 1000 XP</span>
+    </div>
+    <div class="progress-track">
+        <span style="width: {{ progress_percent }}%;"></span>
+    </div>
 </div>
 
-<h1 class="PRs">View PRs</h1>
-<div class="routines"> 
-    {%if length !=0%}
-    {%for _,routine in routines.items()%}
-        <div class="routine-block">
-            <a href="{{url_for('personal_records',routine=routine.name)}}">
-                <h1 class="routine-name">
-                {{routine.name}}
-                </h1>
-            </a>
-        </div>
-    {%endfor%}
-    {%else%}
-        <h1 class="no-routine-msg">No PRs available</h1>
-    {% endif %}
-</div> 
+{% if length != 0 %}
+<div class="section-heading">
+    <h2>Workout History</h2>
+</div>
+<div class="card-grid" style="margin-bottom: 32px;">
+    {% for _, routine in routines.items() %}
+    <a class="action-card" href="{{ url_for('routine_history', routine=routine.name) }}" style="text-decoration:none;">
+        <strong>{{ routine.name }}</strong>
+        <span>View history</span>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="section-heading">
+    <h2>Personal Records</h2>
+</div>
+<div class="card-grid">
+    {% for _, routine in routines.items() %}
+    <a class="action-card" href="{{ url_for('personal_records', routine=routine.name) }}" style="text-decoration:none;">
+        <strong>{{ routine.name }}</strong>
+        <span>View PRs</span>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>No routines yet</h2>
+    <p>Create a routine and log some workouts to see your history and PRs here.</p>
+    <div class="button-row" style="justify-content:center; margin-top:20px">
+        <a class="button" href="/add-routine">Create Routine</a>
+    </div>
+</div>
+{% endif %}
+
 {%endblock%}

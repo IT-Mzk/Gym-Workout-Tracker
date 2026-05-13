@@ -1,54 +1,35 @@
 {%extends 'base.html'%}
 
-{%block main%} 
-<style>
-    .input{
-        max-width: 50px;
-    }
+{%block main%}
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">{{ day }} &mdash; {{ routine }}</p>
+        <h1>Log Workout</h1>
+        <p>{{ exercise_total }} exercise{% if exercise_total != 1 %}s{% endif %} &mdash; enter weight (kg) for each set</p>
+    </div>
+</div>
 
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-        }
-
-
-    button{
-        background-color: #08712b;
-        text-decoration: none;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    #popup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-}
-
-#popup:target {
-  display: block;
-}
-</style>
 <form method="post" action="{{url_for('submit_log',routine=routine,day=day)}}">
-    {% for _,exercise in inputs.items() %}
-            <h2>{{exercise.name}}</h2>
-            {% for set in range(exercise.sets|int)%}
-                <input class="input" type="number" name="{{ exercise.name }} {{loop.index0}}"
-                id="{{ exercise.name }}{{loop.index0}}" placeholder="Set {{loop.index0 + 1}}" required>
-            {%endfor%}
-    {% endfor %}
-    <h1><button type="submit">Finish Logging</button></h1>
-    
+    <div class="exercise-log-grid" style="margin-bottom: 28px;">
+        {% for _,exercise in inputs.items() %}
+        <div class="exercise-card">
+            <h3>{{exercise.name}}</h3>
+            <div class="set-grid">
+                {% for set in range(exercise.sets|int) %}
+                <div class="set-field">
+                    <span>Set {{loop.index}}</span>
+                    <input type="number" name="{{ exercise.name }} {{loop.index0}}"
+                           id="{{ exercise.name }}{{loop.index0}}"
+                           placeholder="kg" min="0" step="0.5" required>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="button-row">
+        <button type="submit">Finish Workout</button>
+        <a class="button button-ghost" href="/logs/{{day}}">Cancel</a>
+    </div>
 </form>
 {%endblock%}

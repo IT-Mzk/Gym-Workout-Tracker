@@ -1,59 +1,27 @@
 {%extends 'base.html'%}
 
 {% block main%}
-<style>
-    main {
-        padding: 20px;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-    form {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    label {
-        display: block;
-        margin-bottom: 10px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #000000;
-    }
-    input[type="text"], input[type="number"] {
-        display: block;
-        width: 95%;
-        padding: 10px;
-        font-size: 16px;
-        color: #111;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 20px;
-    }
-    
-    button[type="submit"] {
-        background-color: #08712b;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    button[type="submit"]:hover {
-        background-color: #08712b;
-    }
-</style>
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">Routines</p>
+        <h1>Name your routine</h1>
+    </div>
+</div>
 
-<h1> Name your routine</h1>
-<form action="/submit-routine" method="get">
-    <label for="routine-name">Routine Name:</label>
-    <input type="text" id="routine-name" name="routine-name" pattern="[A-Za-z0-9 ]+" maxlength="24" autocomplete="off" spellcheck="false" required>
-    <button type="submit">Make</button>
-</form>
-
-
-
+<div class="form-card">
+    <form action="/submit-routine" method="get" class="form-shell">
+        <div class="field">
+            <label class="field-label" for="routine-name">Routine Name</label>
+            <input type="text" id="routine-name" name="routine-name"
+                pattern="[A-Za-z0-9 ]+" maxlength="24"
+                autocomplete="off" spellcheck="false"
+                placeholder="e.g. Push Day" required>
+        </div>
+        <div class="button-row">
+            <button type="submit">Create Routine</button>
+            <a class="button button-ghost" href="/plan">Cancel</a>
+        </div>
+    </form>
+</div>
 
 {%endblock%}

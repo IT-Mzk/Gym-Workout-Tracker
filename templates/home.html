@@ -1,20 +1,70 @@
 {% extends 'base.html'%}
 
 {% block main %}
-<style>
-/* .background{
-    background-image: url('static/img/LGRAC.jpg');
-    opacity: 0.65;
-    background-size: cover;
-    background-position: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-} */
-</style>
-<h1>Welcome Back! {{name}}</h1>
-<!-- <div class="background"></div> -->
+
+<div class="hero">
+    <div>
+        <p class="eyebrow">Dashboard</p>
+        <h1>Welcome back, {{ name }}</h1>
+        <p class="hero-text">Level {{ level }} athlete &mdash; keep pushing.</p>
+        <div class="button-row">
+            <a class="button" href="/plan">My Routines</a>
+            <a class="button button-ghost" href="/calendar">Schedule</a>
+        </div>
+    </div>
+    <div class="stat-grid">
+        <div class="stat-card">
+            <span>Routines</span>
+            <strong>{{ routine_count }}</strong>
+        </div>
+        <div class="stat-card">
+            <span>Exercises</span>
+            <strong>{{ exercise_count }}</strong>
+        </div>
+        <div class="stat-card">
+            <span>Workout days</span>
+            <strong>{{ workout_day_count }}</strong>
+        </div>
+        <div class="stat-card">
+            <span>Level</span>
+            <strong>{{ level }}</strong>
+        </div>
+    </div>
+</div>
+
+<div class="section-heading">
+    <div>
+        <h2>Next workout</h2>
+        <p>{{ next_workout_day }}</p>
+    </div>
+    <a class="button button-ghost" href="/select-days">Edit schedule</a>
+</div>
+
+{% if routines_preview %}
+<div class="section-heading">
+    <h2>Your routines</h2>
+    <a class="button button-ghost" href="/plan">View all</a>
+</div>
+<div class="card-grid">
+    {% for routine in routines_preview %}
+    <div class="routine-card">
+        <h2>{{ routine.name }}</h2>
+        <p>{{ routine.exercises | length }} exercise{% if routine.exercises | length != 1 %}s{% endif %}</p>
+        <div class="button-row">
+            <a class="button" href="/logs/today/{{ routine.name }}">Log workout</a>
+            <a class="button button-ghost" href="/add-exercise/{{ routine.name }}">Add exercise</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>No routines yet</h2>
+    <p>Create your first routine to start tracking workouts and earning XP.</p>
+    <div class="button-row" style="justify-content:center;margin-top:20px">
+        <a class="button" href="/add-routine">Create routine</a>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}

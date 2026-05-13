@@ -436,12 +436,12 @@ def login():
 @app.route("/frontend-demo")
 def frontend_demo():
     """
-    Send users back to the Flask/Jinja application.
+    Serve the React frontend demo.
     """
     current_user = _login_required_user()
     if current_user is None:
         return redirect(url_for("login"))
-    return redirect(url_for("home"))
+    return render_template("frontend_demo.html")
 
 
 @app.route("/api/frontend-demo/state")
@@ -503,6 +503,37 @@ def frontend_demo_update_days():
     return jsonify(_frontend_state(current_user))
 
 
+def _try_bridge_api_session(username):
+    """
+    When a user logs in via Flask, also create or look up their SQL Server
+    record so the REST API endpoints are accessible in the same session.
+    Silently skipped if SQL Server is not configured.
+    """
+    try:
+        from database import get_connection, row_to_dict  # noqa: PLC0415
+
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT UserId AS id FROM Users WHERE Username = ?", username
+            )
+            api_user = row_to_dict(cursor, cursor.fetchone())
+            if api_user is None:
+                cursor.execute(
+                    "INSERT INTO Users (Username) VALUES (?)", username
+                )
+                conn.commit()
+                cursor.execute(
+                    "SELECT UserId AS id FROM Users WHERE Username = ?",
+                    username,
+                )
+                api_user = row_to_dict(cursor, cursor.fetchone())
+            session["api_user_id"] = api_user["id"]
+            session["api_username"] = username
+    except Exception:  # noqa: BLE001
+        pass
+
+
 @app.route("/auth", methods=["POST"])
 def authenticate():
     """
@@ -519,6 +550,7 @@ def authenticate():
         _save_current_user(current_user)
 
     session["username"] = current_user.name
+    _try_bridge_api_session(current_user.name)
     return redirect(url_for("home"))
 
 @app.route("/logout")
@@ -527,6 +559,8 @@ def logout():
     Clear the active user from the browser session.
     """
     session.pop("username", None)
+    session.pop("api_user_id", None)
+    session.pop("api_username", None)
     return redirect(url_for("login"))
 
 

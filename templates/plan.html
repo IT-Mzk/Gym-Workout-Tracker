@@ -1,75 +1,41 @@
 {% extends 'base.html'%}
 
 {% block main %}
-<style>
-    .button {
-        background-color: #08712b;
-        text-decoration: none;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">Training</p>
+        <h1>My Routines</h1>
+        <p>{{ total_exercises }} exercise{% if total_exercises != 1 %}s{% endif %} across {{ length }} routine{% if length != 1 %}s{% endif %}</p>
+    </div>
+    <a class="button" href="/add-routine">New Routine</a>
+</div>
 
-    .routines{
-        list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-        
-    }
+{% if length != 0 %}
+<div class="card-grid">
+    {% for _, routine in routines.items() %}
+    <div class="routine-card">
+        <h2>{{ routine.name }}</h2>
+        <p>{{ routine.exercises | length }} exercise{% if routine.exercises | length != 1 %}s{% endif %}</p>
+        <ul style="margin: 12px 0; padding: 0; list-style: none; display: grid; gap: 4px;">
+            {% for _, exercise in routine.exercises.items() %}
+            <li style="color: var(--muted); font-size: 0.9rem;">{{ exercise.name }} &mdash; {{ exercise.sets }} sets</li>
+            {% endfor %}
+        </ul>
+        <div class="button-row">
+            <a class="button" href="{{ url_for('log_exercise', day='today', routine=routine.name) }}">Log</a>
+            <a class="button button-ghost" href="{{ url_for('add_new_exercise', routine=routine.name) }}">Add exercise</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>No routines yet</h2>
+    <p>Create your first routine to start tracking workouts.</p>
+    <div class="button-row" style="justify-content:center; margin-top:20px">
+        <a class="button" href="/add-routine">Create Routine</a>
+    </div>
+</div>
+{% endif %}
 
-    .routine-block{
-        margin-right: 60px;
-        margin-top: 0px;
-    }
-    
-    a{
-        text-decoration: none;
-    }
-
-    .routine-name{
-        font-size:30px;
-        margin-left: 38px;
-        margin-right: 50px;
-    } 
-
-    ul{
-        list-style: none;
-    }
-    .routine-entry{
-        margin-bottom: 10px;
-    }
-
-    .no-routine-msg{
-        font-size: 30px;
-    }
-</style>
-
-<h1>My Routines</h1>
-<a class="button" href="/add-routine">Create new routine</a><br><br>
-
-    {%if length != 0%}
-    <h2>Click on a routine to add exercises</h2>
-    <div class="routines">
-        {%for _, routine in routines.items()%}
-            <div class="routine-block">
-                <a href="{{url_for('add_new_exercise',routine=routine.name)}}">
-                    <h1 class="routine-name">
-                    {{routine.name}}
-                    </h1>
-                </a>
-
-                <ul>
-                    {% for _, exercise in routine.exercises.items() %}
-                        <li class="routine-entry">{{exercise.name}} - {{exercise.sets}} sets</li>
-                    {%endfor%}
-                </ul>
-            </div>
-        {%endfor%}
-    {% else %}
-        <h1 class="no-routine-msg">You currently have no routines. Create a routine to display them here</h1>
-    {% endif %}
-    {%endblock%}
-</div> 
+{%endblock%}

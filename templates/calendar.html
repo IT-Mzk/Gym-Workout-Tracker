@@ -1,66 +1,34 @@
 {%extends 'base.html'%}
 
 {% block main%}
-<style>
-    .button {
-        background-color: #08712b;
-        text-decoration: none;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    a{
-        text-decoration: none;
-    }
-
-    .workout-days{
-        list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .day-block{
-        margin-right: 60px;
-        margin-top: 0px;
-    }
-
-    .day{
-        font-size: 30px;
-    }
-    
-    .no-days-selected{
-        font-size: 30px;
-    }
-
-
-
-</style>
-<h1>Your Workout Days</h1>
-
-
-<a class="button" href="/select-days">Select Workout Days</a><br><br>
-
-
-    {% if length != 0%}
-        <h2>Click on the day to log</h2>
-    <div class="workout-days">
-        {% for day in workout_days %}
-        <div class="day-block">
-            <a href="{{url_for('logs_page',day=day)}}">
-                <h1 class="day">
-                    {{day}}
-                </h1>
-            </a>
-        </div>
-        {%endfor%}
-    {%else%}
-    <h1 class="no-days-selected">
-        Please select workout days to display them here
-    </h1>
-    {%endif%}
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">Schedule</p>
+        <h1>Workout Calendar</h1>
+        {% if next_workout_day %}
+        <p>Next workout: <strong style="color: var(--accent)">{{ next_workout_day }}</strong></p>
+        {% endif %}
+    </div>
+    <a class="button button-ghost" href="/select-days">Edit Schedule</a>
 </div>
+
+{% if length != 0 %}
+<div class="day-grid">
+    {% for day in workout_days %}
+    <a class="day-card" href="{{ url_for('logs_page', day=day) }}" style="display:block; text-decoration:none;">
+        <strong>{{ day | title }}</strong>
+        <small>Tap to log workout</small>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>No workout days selected</h2>
+    <p>Choose which days of the week you train to see your schedule here.</p>
+    <div class="button-row" style="justify-content:center; margin-top:20px">
+        <a class="button" href="/select-days">Select Days</a>
+    </div>
+</div>
+{% endif %}
+
 {%endblock%}

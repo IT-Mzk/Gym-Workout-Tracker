@@ -111,13 +111,12 @@ def test_404_redirects_to_login(client):
     assert response.headers["Location"] == "/"
 
 
-def test_frontend_demo_redirects_to_main_app(client):
+def test_frontend_demo_renders_react_page(client):
     """
-    The old React demo route no longer opens the mock prototype.
+    /frontend-demo renders the React prototype for logged-in users.
     """
     login(client)
 
     response = client.get("/frontend-demo")
 
-    assert response.status_code == 302
-    assert response.headers["Location"] == "/home"
+    assert response.status_code == 200

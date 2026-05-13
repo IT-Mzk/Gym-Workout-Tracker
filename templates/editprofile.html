@@ -1,49 +1,24 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<style>
-  .upload {
-    background-color: #08712b;
-    color: #fff;
-    padding: 8px 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">Profile</p>
+        <h1>Change Profile Picture</h1>
+    </div>
+    <a class="button button-ghost" href="/profile">Back</a>
+</div>
 
-  .submit {
-    background-color: #08712b;
-    color: #fff;
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .username {
-    background-color: #08712b;
-    color: #fff;
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-  }
-
-  ::placeholder {
-    color: #fff;
-  }
-</style>
-
-<h1>Change Profile Picture</h1>
-<form method="post" enctype="multipart/form-data" action="{{ url_for('photo_uploaded') }}">
-  <input class="upload" type="file" name="file">
-  <input class="submit" type="submit">
-</form>
-<!-- <h1>Change Username</h1>
-<form method="get" action="/username-changed">
-    <input class="username" type="text" name="new_username" placeholder="Enter new username"/>
-    <input class="submit" type="submit"/>
-</form> -->
+<div class="form-card">
+    <form method="post" enctype="multipart/form-data"
+          action="{{ url_for('photo_uploaded') }}" class="form-shell">
+        <div class="field">
+            <label class="field-label" for="file">Choose a photo</label>
+            <input type="file" id="file" name="file" accept="image/*" required>
+        </div>
+        <div class="button-row">
+            <button type="submit">Upload Photo</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

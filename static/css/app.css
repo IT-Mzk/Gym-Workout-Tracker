@@ -87,7 +87,8 @@ img {
     border-radius: var(--radius-lg);
     background: linear-gradient(180deg, rgba(9, 21, 18, 0.96) 0%, rgba(10, 27, 22, 0.88) 100%);
     box-shadow: var(--shadow);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .sidebar::after {
@@ -109,7 +110,7 @@ img {
 }
 
 .brand-lockup img {
-    width: 74px;
+    width: 59px;
     filter: drop-shadow(0 16px 18px rgba(0, 0, 0, 0.22));
 }
 

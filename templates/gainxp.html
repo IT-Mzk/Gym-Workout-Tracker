@@ -1,43 +1,37 @@
 {%extends 'base.html'%}
 
-{%block main%} 
-<style>
-    progress{
-        margin: 1px 10px;
-        background-color: #08712b;
-    }
-
-    p{
-        font-size: 25px;
-    }
-
-    label{
-        font-size: 20px;
-    }
-
-    button {
-        background-color: #08712b;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #08712b;
-    }
-</style>
-<div id="popup">
-    <h1>Workout Completed!</h1>
-    <p>Congratulations! You gained 100 xp for completing today's workout.</p>
-    <label for="file">Current Level: {{level}}</label>
-    <progress value={{level_fraction}} max="1000"> {{level_fraction}}% </progress>
-    <label>{{level_fraction}}/1000</label>
-    <br>
-    <br>
-    <a href="{{url_for('logs_page',day=day)}}"><button>Close</button></a>
+{%block main%}
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">Workout Complete</p>
+        <h1>Well done!</h1>
+    </div>
 </div>
 
+<div class="xp-banner" style="margin-bottom: 24px;">
+    <div>
+        <p style="font-size: 1.1rem; margin-bottom: 8px;">You earned <strong style="color: var(--accent)">+100 XP</strong> for completing today's workout.</p>
+        <p style="color: var(--muted); font-size: 0.95rem;">Keep it up — every session brings you closer to the next level.</p>
+    </div>
+    <div style="text-align: center;">
+        <span style="display: block; font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--accent);">+100</span>
+        <span style="color: var(--muted); font-size: 0.85rem;">XP</span>
+    </div>
+</div>
+
+<div class="progress-card panel-card">
+    <div class="progress-meta">
+        <span>Level {{level}} &rarr; {{level + 1}}</span>
+        <span>{{level_fraction}} / 1000 XP</span>
+    </div>
+    <div class="progress-track">
+        <span style="width: {{progress_percent}}%;"></span>
+    </div>
+</div>
+
+<div class="button-row" style="margin-top: 28px;">
+    <a class="button" href="{{url_for('logs_page',day=day)}}">Log Another Routine</a>
+    <a class="button button-ghost" href="/home">Back to Home</a>
+</div>
 
 {%endblock%}
