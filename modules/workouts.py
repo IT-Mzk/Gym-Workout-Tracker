@@ -3,6 +3,7 @@ Classes for creating a workout routine for LTRAC
 """
 
 import json
+import os
 from datetime import date
 from typing import Dict, List
 import pandas as pd
@@ -204,6 +205,10 @@ class Routine:
         Args:
             file_path: A string representing the path to the json file
         """
+        parent_dir = os.path.dirname(file_path)
+        if parent_dir:
+            os.makedirs(parent_dir, exist_ok=True)
+
         json_dict = self.__dict__.copy()
         json_dict["_exercises"] = {
             key: {"_name": ex.name, "_sets": ex.sets}
@@ -219,6 +224,10 @@ class Routine:
         Args:
             file_path: A string representing the path to the csv file
         """
+        parent_dir = os.path.dirname(file_path)
+        if parent_dir:
+            os.makedirs(parent_dir, exist_ok=True)
+
         log_df = pd.DataFrame()
         for _, ex in self.exercises.items():
             ex_df = pd.DataFrame(ex.history)

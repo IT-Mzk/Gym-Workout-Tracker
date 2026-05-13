@@ -1,0 +1,8 @@
+.deps/
+.deps_runtime/
+.venv/
+node_modules/
+__pycache__/
+modules/__pycache__/
+*.pyc
+.codex_test_*.txt
