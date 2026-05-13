@@ -223,8 +223,7 @@ class User:
 
         name_no_spaces = self.name.replace(" ", "_")
         dir_path = f"user_data/{name_no_spaces}"
-        if not os.path.exists(dir_path):
-            os.mkdir(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
 
         with open(
             f"{dir_path}/{name_no_spaces}.json", "w", encoding="UTF-8"
@@ -243,8 +242,7 @@ class User:
         for _, routine in self.routines.items():
             routine_name_no_spaces = routine.name.replace(" ", "_")
             routine_dir = f"{user_dir}/{routine_name_no_spaces}"
-            if not os.path.exists(routine_dir):
-                os.mkdir(routine_dir)
+            os.makedirs(routine_dir, exist_ok=True)
 
             routine.export_log(f"{routine_dir}/{routine_name_no_spaces}.csv")
             routine.to_json(f"{routine_dir}/{routine_name_no_spaces}.json")

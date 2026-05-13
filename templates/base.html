@@ -1,85 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Gym Tracker</title>
-	<style>
-
-		img{
-            width:250px;
-            height: auto;
-        }
-
-		body {
-			margin: 0;
-			padding: 0;
-			font-family: Arial, sans-serif;
-			/* background-color: #f8f8f8; */
-		}
-		header {
-			background-color: #08712b;
-			color: #fff;
-			padding: 20px;
-			text-align: center;
-			font-size: 34px;
-			font-weight: bold;
-		}
-		nav {
-			margin-top: 85.5px;
-			background-color: #fff;
-			height: 100%;
-			width: 200px;
-			position: fixed;
-			top: 0;
-			left: 0;
-			padding-top: 0px;
-			box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-		}
-		nav a {
-			display: block;
-			padding: 15px;
-			text-decoration: none;
-			color: #000;
-			font-size: 18px;
-			border-bottom: 1px solid #ccc;
-		}
-		nav a:hover {
-			background-color: #f2f2f2;
-		}
-
-		nav a:active{
-			background-color: #ccc;
-		}
-		main {
-			margin-left: 200px;
-			padding: 20px;
-		}
-		h1 {
-			font-size: 36px;
-			margin-bottom: 20px;
-			color: #000000;
-		}
-		p {
-			color: #666;
-			font-size: 18px;
-			line-height: 1.5;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gym Tracker{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    {% block head %}{% endblock %}
 </head>
-
 <body>
-	<header>
-        <img src="/static/img/logo.png" alt="GYM TRACKER Logo">
-    </header>
-	<nav>
-		<a href="/">Logout</a>
-		<a href ="/home">Home</a>
-		<a href="/profile">Profile</a>
-		<a href="/plan">Plan</a>
-		<a href="/calendar">Calendar</a>
-	</nav>
-	<main>
-		{% block main %}{% endblock %}
-	</main>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand-lockup" href="/home">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Gym Tracker logo">
+                <div class="brand-copy">
+                    <strong>Gym Tracker</strong>
+                    <span>Demo training workspace</span>
+                </div>
+            </a>
+
+            <div class="user-chip">
+                <img
+                    class="user-chip-avatar"
+                    src="{{ url_for('static', filename=shell_profile_photo) }}"
+                    alt="Profile photo for {{ shell_user_name }}"
+                >
+                <div>
+                    <span>Active athlete</span>
+                    <strong>{{ shell_user_name }}</strong>
+                    <span>Level {{ shell_user_level }} • {{ shell_exercise_count }} tracked lifts</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a class="nav-link{% if request.path == '/home' %} is-active{% endif %}" href="/home">Dashboard</a>
+                <a class="nav-link{% if request.path.startswith('/profile') or request.path == '/edit-profile' %} is-active{% endif %}" href="/profile">Profile</a>
+                <a class="nav-link{% if request.path.startswith('/plan') or request.path.startswith('/add-routine') or request.path.startswith('/add-exercise') %} is-active{% endif %}" href="/plan">Plan</a>
+                <a class="nav-link{% if request.path.startswith('/calendar') or request.path.startswith('/select-days') or request.path.startswith('/logs') or request.path.startswith('/gainxp') %} is-active{% endif %}" href="/calendar">Schedule</a>
+            </nav>
+
+            <div class="sidebar-summary">
+                <p>Build your weekly plan, log every set, and keep the whole workout flow in one focused dashboard.</p>
+                <div class="mini-stats">
+                    <div class="mini-stat">
+                        <strong>{{ shell_routine_count }}</strong>
+                        <span>Routines</span>
+                    </div>
+                    <div class="mini-stat">
+                        <strong>{{ shell_workout_day_count }}</strong>
+                        <span>Workout days</span>
+                    </div>
+                </div>
+                <div class="button-row">
+                    <a class="button button-ghost full-width" href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="page-shell">
+            {% block main %}{% endblock %}
+        </main>
+    </div>
 </body>
 </html>

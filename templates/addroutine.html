@@ -25,6 +25,8 @@
         width: 95%;
         padding: 10px;
         font-size: 16px;
+        color: #111;
+        background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 5px;
         margin-bottom: 20px;
@@ -47,7 +49,7 @@
 <h1> Name your routine</h1>
 <form action="/submit-routine" method="get">
     <label for="routine-name">Routine Name:</label>
-    <input type="text" id="routine-name" name="routine-name" pattern="[A-Za-z0-9]+" maxlength="12" required>
+    <input type="text" id="routine-name" name="routine-name" pattern="[A-Za-z0-9 ]+" maxlength="24" autocomplete="off" spellcheck="false" required>
     <button type="submit">Make</button>
 </form>
 

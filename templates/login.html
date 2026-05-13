@@ -1,95 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GYM TRACKER Login</title>
-	<style>
-
-		img{
-            width:250px;
-            height: auto;
-        }
-
-		body {
-			margin: 0;
-			padding: 0;
-			font-family: Arial, sans-serif;
-			/* background-color: #f8f8f8; */
-		}
-		header {
-			background-color: #08712b;
-			color: #fff;
-			padding: 20px;
-			text-align: center;
-			font-size: 34px;
-			font-weight: bold;
-		}
-
-        main {
-        padding: 20px;
-        max-width: 600px;
-        margin: 0 auto;
-        }
-
-		h1 {
-			font-size: 36px;
-			margin-bottom: 20px;
-			color: #000000;
-		}
-		p {
-			color: #666;
-			font-size: 18px;
-			line-height: 1.5;
-		}
-
-
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #000000;
-        }
-        input[type="text"], input[type="number"] {
-            display: block;
-            width: 95%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        
-        button[type="submit"] {
-            background-color: #08712b;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button[type="submit"]:hover {
-            background-color: #08712b;
-        }
-	</style>
+    <title>Login | Gym Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body>
-    <header>
-        <img src="/static/img/logo.png" alt="GYM TRACKER Logo">
-    </header>
+    <main class="login-page">
+        <div class="login-shell">
+            <section class="login-copy">
+                <div class="login-brand">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Gym Tracker logo">
+                    <div>
+                        <strong>Gym Tracker</strong>
+                        <span>Workout planning demo for routines, logs and progress.</span>
+                    </div>
+                </div>
+
+                <p class="eyebrow">Focused workout flow</p>
+                <h1>Train with a cleaner dashboard, not a wall of plain forms.</h1>
+                <p class="hero-text">
+                    This demo redesign keeps the current Flask backend but wraps it in a stronger UI:
+                    clearer routines, faster logging, and a more polished profile and calendar flow.
+                </p>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <strong>Plan routines</strong>
+                        <p>Create workout blocks and add exercises without losing context.</p>
+                    </article>
+                    <article class="feature-card">
+                        <strong>Track progress</strong>
+                        <p>Review history, PRs and XP in one place.</p>
+                    </article>
+                    <article class="feature-card">
+                        <strong>Use a demo account</strong>
+                        <p>Type <strong>testuser</strong> to preview the seeded flow instantly.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="login-panel">
+                <p class="eyebrow">Sign in</p>
+                <h2>Open your training space</h2>
+                <p class="support-copy">Enter an existing username or create a new one automatically.</p>
+
+                <form class="form-shell" action="/auth" method="post">
+                    <label class="field" for="username">
+                        <span class="field-label">Username</span>
+                        <input type="text" id="username" name="username" pattern="[A-Za-z0-9]+" placeholder="Example: testuser" required>
+                    </label>
+
+                    <button type="submit" class="full-width">Enter dashboard</button>
+                </form>
+
+                <div class="demo-note">
+                    Demo shortcut: use <strong>testuser</strong> to see a prefilled routine and workout day.
+                </div>
+            </section>
+        </div>
+    </main>
 </body>
-<main>
-    <h1>Login</h1>
-    <form action="/auth" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" pattern="[A-Za-z0-9]+" required>
-        <button type="submit">Submit</button>
-    </form>
-</main>
+</html>
