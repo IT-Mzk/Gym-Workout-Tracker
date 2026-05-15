@@ -21,8 +21,9 @@ from modules.profile import User
 from modules.workouts import Exercise, Routine
 from routes.api_routes import api_bp
 
+import os as _os
 app = Flask(__name__)
-app.secret_key = "gym-workout-tracker-dev-secret"
+app.secret_key = _os.getenv("SECRET_KEY", "gym-workout-tracker-dev-secret")
 app.register_blueprint(api_bp)
 
 
@@ -1022,4 +1023,5 @@ def internal_error(error):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    app.run(debug=os.getenv("FLASK_DEBUG", "false").lower() == "true")

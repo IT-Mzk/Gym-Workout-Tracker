@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: gym-workout-tracker
+    runtime: python
+    buildCommand: pip install Flask pandas gunicorn
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_DEBUG
+        value: false
